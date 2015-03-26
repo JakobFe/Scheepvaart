@@ -38,7 +38,7 @@ class ShipBrokerMapper extends Mapper {
     }
 
     protected function doInsert( \gb\domain\DomainObject $object ) {
-        
+
     }
     
     function update( \gb\domain\DomainObject $object ) {
@@ -55,14 +55,27 @@ class ShipBrokerMapper extends Mapper {
     
     function getShipBrokerRevenues() {
         
-        //$con = $this->getConnectionManager();
-        //$selectStmt = "YOUR SQL HERE";
-        //$results = $con->executeSelectStatement($selectStmt, array());        
-        //return $results;
-        
+        $con = $this->getConnectionManager();
+        $selectStmt = "SELECT name FROM SHIP_BROKER";
+        $results = $con->executeSelectStatement($selectStmt, array());        
+        return $results;
+	}
+		
+	function getShipbrokerRoute($ShipBrokerName) {
+        /* 
+		De SELECT statement selecteerd eerst uit order the shipment_id, en gebruikt deze daarna
+		om de route_id uit TRIP te halen. 
+		*/
+		
+		require_once( "gb/mapper/OrderMapper.php");
+        $con = $this->getConnectionManager();
+        $selectStmt = "(SELECT route_id, departure_date, arrival_date FROM TRIP where ((ship_id = 
+		(SELECT shipment_id FROM ORDER where ship_broker_name = ShipBrokerName))
+		AND (arrival_date >= date('F', strtotime($date)) - 1)))";
+        $results = $con->executeSelectStatement($selectStmt, array());        
+        return $results;
         
     }
 }
-
 
 ?>
