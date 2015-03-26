@@ -12,6 +12,7 @@ class ShipMapper extends Mapper {
         parent::__construct();
         $this->selectStmt = "SELECT * FROM CUSTOMER where ssn = ?";
         $this->selectAllStmt = "SELECT * FROM SHIP ";
+        $this->selectIDStmt = "SELECT ship_id FROM SHIP"; 
         
     } 
     
@@ -49,6 +50,10 @@ class ShipMapper extends Mapper {
     
     function selectAllStmt() {
         return $this->selectAllStmt;
+    }
+
+    function selectIDStmt(){
+        return $this->selectIDStmt; 
     }
     
     

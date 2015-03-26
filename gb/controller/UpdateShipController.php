@@ -8,7 +8,10 @@ class UpdateShipController extends PageController {
         
     function process() {
         if (isset($_POST["update_ship"])) {
-            print "update code here";            
+            print "veel werk";
+            $mapper = new gb\mapper\ShipMapper();
+            $allShips = $mapper->findAll(); 
+
         }
     }
 }
