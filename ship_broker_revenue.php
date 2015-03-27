@@ -18,21 +18,26 @@
         <td>Revenue</td>
         <td>Date (mm/yyyy)</td>
     </tr>
+	
+	
 <?php
-    foreach($allShipBrokers as $Shipbroker) {
-		/*
-		De eerste 2 lijnen komen eerst, om de route_id te bepalen, maar php leest de functie niet.
+	require_once( "gb/mapper/ShipBrokerMapper.php" );
+	$mapper = new gb\mapper\ShipBrokerMapper();//
+	$routes = $mapper->getShipbrokerRevenue(); 
+    for($i = 0; $i < count($routes); ++$i) {
+		$route_id = $routes[$i]['Route_id'];
 		
 		require_once( "gb/mapper/ShipBrokerMapper.php" );
-		$route = getShipbrokerRoute($Shipbroker->getName()); 
+		$mapper = new gb\mapper\ShipBrokerMapper();//
+		$Ports = $mapper->getPorts($route_id);
 		
-		De lijst lijn moet onder de andere echo, maar aangezien route nog niet tegoei bepaald 
-		wordt staat deze even hier gecommertarieërd. 
-		<td><?php echo $Shipbroker->getRoute(); ?></td>	
-		*/
  ?>
        <tr>
-		<td><?php echo $Shipbroker->getName(); ?></td>
+		<td><?php echo $routes[$i]['Ship_broker_name']; ?></td>
+		<td><?php echo $Ports[0]['from_port_code'] ?></td>
+		<td><?php echo $Ports[0]['to_port_code'] ?></td>
+		<td><?php echo $routes[$i]['SUM(price)'] ?></td>
+		<td><?php echo $routes[$i]['departure_date'] ?></td>
 		</tr>  
 	
 <?php        

@@ -33,7 +33,7 @@ class ShipBrokerMapper extends Mapper {
         $obj->setBus($array['bus']);
         $obj->setPostalCode($array['postal_code']);
         $obj->setCity($array['city']);
-        
+ 
         return $obj;
     }
 
@@ -60,20 +60,23 @@ class ShipBrokerMapper extends Mapper {
         $results = $con->executeSelectStatement($selectStmt, array());        
         return $results;
 	}
+	
+	function getPorts($route_id){
+	
+	$con = $this->getConnectionManager();
+	$selectStmt = "SELECT from_port_code, to_port_code FROM ROUTE where route_id = $route_id";
+	$results = $con->executeSelectStatement($selectStmt, array());        
+	return $results;
+	}
 		
-	function getShipbrokerRoute($ShipBrokerName) {
-        /* 
-		De SELECT statement selecteerd eerst uit order the shipment_id, en gebruikt deze daarna
-		om de route_id uit TRIP te halen. 
-		*/
-		
-		require_once( "gb/mapper/OrderMapper.php");
-        $con = $this->getConnectionManager();
-        $selectStmt = "(SELECT route_id, departure_date, arrival_date FROM TRIP where ((ship_id = 
-		(SELECT shipment_id FROM ORDER where ship_broker_name = ShipBrokerName))
-		AND (arrival_date >= date('F', strtotime($date)) - 1)))";
-        $results = $con->executeSelectStatement($selectStmt, array());        
-        return $results;
+	function getShipbrokerRevenue() {
+     
+    $con = $this->getConnectionManager();
+    $selectStmt = "SELECT Ship_broker_name, Route_id, departure_date, SUM(price) 
+	FROM ORDERS NATURAL JOIN SHIPS where departure_date >= cast((now() - interval 1 month) as date)
+	GROUP BY Route_id, Ship_broker_name";
+	$results = $con->executeSelectStatement($selectStmt, array());        
+	return $results;
         
     }
 }
