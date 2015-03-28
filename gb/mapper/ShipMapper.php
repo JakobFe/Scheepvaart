@@ -13,6 +13,7 @@ class ShipMapper extends Mapper {
         $this->selectStmt = "SELECT * FROM CUSTOMER where ssn = ?";
         $this->selectAllStmt = "SELECT * FROM SHIP ";
         $this->selectIDStmt = "SELECT ship_id FROM SHIP"; 
+        $this->updateIDStmt = "UPDATE SHIP SET ship_id = ? where ship_id = ? ";
         
     } 
     
@@ -24,6 +25,15 @@ class ShipMapper extends Mapper {
         }
         
         return $customerCollection;
+    }
+
+    function getCollectionID( array $raw){
+        $IDCollection = array();
+        foreach ($raw as $row ) {
+            array_push($IDCollection, $row['ship_id']);
+        }
+
+        return $IDCollection; 
     }
 
     protected function doCreateObject( array $array ) {
@@ -41,6 +51,7 @@ class ShipMapper extends Mapper {
     }
     
     function update( \gb\domain\DomainObject $object ) {
+        self::$con->executeUpdateStatement($this->updateIDStmt(), array());
         
     }
 
