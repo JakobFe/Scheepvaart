@@ -4,6 +4,7 @@ namespace gb\mapper;
 $EG_DISABLE_INCLUDES=true;
 require_once( "gb/mapper/Mapper.php" );
 require_once( "gb/domain/Shipment.php" );
+require_once( "gb/connection/ConnectionManager.php" );
 
 
 class ShipmentMapper extends Mapper {
@@ -13,6 +14,7 @@ class ShipmentMapper extends Mapper {
         $this->selectStmt = "SELECT * FROM shipment where shipment_id = ?";
         //$this->selectStmt = "SELECT * FROM CUSTOMER where ssn = ?";
         $this->selectAllStmt = "SELECT * FROM shipment ";
+        $this->insertStmt = "INSERT INTO shipment VALUES (?,?,?)";
     }
 
     function getCollection( array $raw ) {
@@ -25,7 +27,7 @@ class ShipmentMapper extends Mapper {
         return $customerCollection;
     }
 
-    protected function doCreateObject( array $array ) {
+    function doCreateObject( array $array ) {
 
         $obj = null;
         if (count($array) > 0) {
@@ -39,11 +41,11 @@ class ShipmentMapper extends Mapper {
         return $obj;
     }
 
-    protected function doInsert( \gb\domain\DomainObject $object ) {
-        /*$values = array( $object->getName() );
-        $this->insertStmt->execute( $values );
-        $id = self::$PDO->lastInsertId();
-        $object->setId( $id );*/
+    function doInsert( \gb\domain\DomainObject $object )
+    {
+        $values = array( $object->getShipmentID(), $object->getVolume(), $object->getWeight() );
+        $con = new \gb\connection\ConnectionManager();
+        $con->executeUpdateStatement($this->insertStmt,$values);
     }
 
     function update( \gb\domain\DomainObject $object ) {

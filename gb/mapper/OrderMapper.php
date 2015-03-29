@@ -4,6 +4,7 @@ namespace gb\mapper;
 $EG_DISABLE_INCLUDES=true;
 require_once( "gb/mapper/Mapper.php" );
 require_once( "gb/domain/Order.php" );
+require_once( "gb/connection/ConnectionManager.php" );
 
 
 class OrderMapper extends Mapper {
@@ -12,7 +13,8 @@ class OrderMapper extends Mapper {
         parent::__construct();
         $this->selectStmt = "SELECT * FROM shipment where shipment_id = ?";
         //$this->selectStmt = "SELECT * FROM CUSTOMER where ssn = ?";
-        $this->selectAllStmt = "SELECT shipment_id, O.ssn, ship_broker_name,price,order_date,first_name,last_name FROM orders O, customer C WHERE O.ssn = C.ssn ";    
+        $this->selectAllStmt = "SELECT shipment_id, O.ssn, ship_broker_name,price,order_date,first_name,last_name FROM orders O, customer C WHERE O.ssn = C.ssn ";
+        $this->insertStmt = "INSERT INTO orders VALUES (?,?,?,?,?)";
         
     } 
     
@@ -26,7 +28,7 @@ class OrderMapper extends Mapper {
         return $customerCollection;
     }
 
-    protected function doCreateObject( array $array ) {
+    function doCreateObject( array $array ) {
         
         $obj = null;        
         if (count($array) > 0) {
@@ -43,11 +45,11 @@ class OrderMapper extends Mapper {
         return $obj;
     }
 
-    protected function doInsert( \gb\domain\DomainObject $object ) {
-        $values = array( $object->getName() );
-        $this->insertStmt->execute( $values );
-        $id = self::$PDO->lastInsertId();
-        $object->setId( $id );
+    function doInsert( \gb\domain\DomainObject $object ) {
+        $values = array( $object->getShipmentID(), $object->getSsn(), $object->getShipBrokerName(), $object->getPrice(),
+            $object->getOrderDate());
+        $con = new \gb\connection\ConnectionManager();
+        $con->executeUpdateStatement($this->insertStmt,$values);
     }
     
     function update( \gb\domain\DomainObject $object ) {
@@ -62,14 +64,6 @@ class OrderMapper extends Mapper {
     function selectAllStmt() {
         return $this->selectAllStmt;
     }
-    
-    // function getCustomersInCity ($city) {
-        
-    //     $con = $this->getConnectionManager();
-    //     $selectStmt = "SELECT * FROM CUSTOMER where city = ?";
-    //     $cities = $con->executeSelectStatement($selectStmt, array($city));        
-    //     return $this->getCollection($cities);
-    // }
 }
 
 

@@ -14,14 +14,11 @@ class Order extends DomainObject {
 
     private $nameBelongingToSsn;
 
-
     function __construct( $id=null ) {
         //$this->name = $name;
         parent::__construct( $id );
     }
-    
-    
-    
+
     function setShipmentID($ShipmentID ) {
         $this->ShipmentID = $ShipmentID;
     }
@@ -38,11 +35,10 @@ class Order extends DomainObject {
         return $this->ssn;
     }
     
-    
-    
     function setShipBrokerName ($ship_broker_name) {
         $this->ship_broker_name = $ship_broker_name;
     }
+
     function getShipBrokerName() {
         return $this->ship_broker_name;
     }
@@ -55,11 +51,10 @@ class Order extends DomainObject {
         return $this->price;
     }
     
-    
-    
     function setOrderDate ($order_date) {
         $this->order_date = $order_date;
     }
+
     function getOrderDate() {
         return $this->order_date;
     }
