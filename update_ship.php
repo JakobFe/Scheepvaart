@@ -10,11 +10,15 @@
     require_once( "gb/controller/UpdateShipController.php" );
     $updateShipController = new gb\controller\UpdateShipController();
     $updateShipController->process();
+    $displayTable = "block";
+    if (isset($_POST["update_ship"])){
+        $displayTable = "none";
+    }
 ?> 
 
 <form action="" method="post" >
 
-<table>
+<table style="display:<?php echo $displayTable ?>" >
     <tr>
         <td>Ship id </td><td><input type="input" name="ship_id" value="<?php echo $_REQUEST["ship_id"]; ?>" /></td>
     </tr>

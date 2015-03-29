@@ -15,6 +15,8 @@ class UpdateShipController extends PageController {
         if (isset($_POST["update_ship"])) {
         	$previousID = htmlspecialchars($_GET["ship_id"]);
         	$shipID = $_POST["ship_id"];
+        	$shipName = $_POST["ship_name"];
+        	$shipType = $_POST["ship_type"]; 
 	        if (! is_numeric($shipID)){
 				echo "please enter a number as the id.";
 			}
@@ -22,8 +24,11 @@ class UpdateShipController extends PageController {
 				echo "this id has already been taken.";
 			}
 			else {
-				echo "the id will be updated. ";
-
+				require_once("gb/mapper/ShipMapper.php");
+				$ships = new \gb\mapper\ShipMapper();
+				$ships->updateShip($previousID,$shipID,$shipName,$shipType);
+				echo "<br> The ship information has been updated";
+				
 			}
         }
             

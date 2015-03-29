@@ -14,6 +14,8 @@ class ShipMapper extends Mapper {
         $this->selectAllStmt = "SELECT * FROM SHIP ";
         $this->selectIDStmt = "SELECT ship_id FROM SHIP"; 
         $this->updateIDStmt = "UPDATE SHIP SET ship_id = ? where ship_id = ? ";
+        $this->updateNameStmt = "UPDATE SHIP SET ship_name = ? where ship_id=?";
+        $this->updateTypeStmt = "UPDATE SHIP SET type = ? WHERE ship_id = ?";
         
     } 
     
@@ -51,8 +53,24 @@ class ShipMapper extends Mapper {
     }
     
     function update( \gb\domain\DomainObject $object ) {
-        self::$con->executeUpdateStatement($this->updateIDStmt(), array());
         
+    }
+    function updateShip($previousID, $newID, $newShipName, $newType){
+       // $this->updateID($previousID,$newID);
+        $this->updateName($newShipName,$previousID);
+        $this->updateType($newType,$previousID);
+    }
+
+    function updateID($previousID, $newID){
+        self::$con->executeUpdateStatement($this->updateIDStmt(),array($newID, $previousID)); 
+    }
+
+    function updateName($newShipName, $previousID){
+        self::$con->executeUpdateStatement($this->updateNameStmt(),array($newShipName, $previousID)); 
+    }
+
+    function updateType($newType, $previousID){
+        self::$con->executeUpdateStatement($this->updateTypeStmt(),array($newType, $previousID)); 
     }
 
     function selectStmt() {
@@ -65,6 +83,18 @@ class ShipMapper extends Mapper {
 
     function selectIDStmt(){
         return $this->selectIDStmt; 
+    }
+
+    function updateIDStmt(){
+        return $this->updateIDStmt;
+    }
+
+    function updateNameStmt(){
+        return $this->updateNameStmt;
+    }
+
+    function updateTypeStmt(){
+        return $this->updateTypeStmt;
     }
     
     

@@ -57,7 +57,6 @@ abstract class Mapper {
     
     abstract function update( \gb\domain\DomainObject $object );
     protected abstract function getCollection( array $raw );
-    //protected abstract function getCollectionCity( array $raw );
     protected abstract function doCreateObject( array $array );
     protected abstract function doInsert( \gb\domain\DomainObject $object );
     protected abstract function selectStmt();
