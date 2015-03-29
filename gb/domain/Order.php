@@ -5,20 +5,21 @@ require_once( "gb/domain/DomainObject.php" );
 
 class Order extends DomainObject {    
       
-
+    // the different attributes of an Order 
     private $ShipmentID;
-    private $ssn;
     private $ship_broker_name;
     private $price;
     private $order_date;
 
+    // attributes of the person who ordered the order
+    private $ssn;
     private $nameBelongingToSsn;
 
     function __construct( $id=null ) {
-        //$this->name = $name;
         parent::__construct( $id );
     }
 
+    // below, basic getters and setters of the attributes defined above are implemented.
     function setShipmentID($ShipmentID ) {
         $this->ShipmentID = $ShipmentID;
     }
@@ -66,9 +67,6 @@ class Order extends DomainObject {
     function getNameBelongingToSsn(){
         return $this->nameBelongingToSsn; 
     }
-    
-    
-
 }
 
 ?>

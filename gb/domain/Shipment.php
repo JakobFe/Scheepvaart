@@ -5,19 +5,19 @@ require_once( "gb/domain/DomainObject.php" );
 
 class Shipment extends DomainObject {    
       
-
+    // attributes of a shipment
     private $ShipmentID;
     private $Volume;
     private $Weight;
 
 
     function __construct( $id=null ) {
-        //$this->name = $name;
         parent::__construct( $id );
     }
     
     
-    
+    // below, basic getters and setters of the attributes defined above are implemented. 
+
     function setShipmentID($ShipmentID ) {
         $this->ShipmentID = $ShipmentID;
     }

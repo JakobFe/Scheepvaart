@@ -11,12 +11,14 @@ class ShipmentMapper extends Mapper {
 
     function __construct() {
         parent::__construct();
+        // SEQUEL queries to select the needed information 
         $this->selectStmt = "SELECT * FROM shipment where shipment_id = ?";
-        //$this->selectStmt = "SELECT * FROM CUSTOMER where ssn = ?";
         $this->selectAllStmt = "SELECT * FROM shipment ";
         $this->insertStmt = "INSERT INTO shipment VALUES (?,?,?)";
     }
 
+    // after the query has been queried, put the obtained information in an array as a Shipment, 
+    // to easily use it afterwards. 
     function getCollection( array $raw ) {
 
         $customerCollection = array();
@@ -27,8 +29,8 @@ class ShipmentMapper extends Mapper {
         return $customerCollection;
     }
 
+    // create a new Shipment and give it all the needed attributes.
     function doCreateObject( array $array ) {
-
         $obj = null;
         if (count($array) > 0) {
             $obj = new \gb\domain\Shipment( $array['shipment_id'] );
@@ -61,13 +63,7 @@ class ShipmentMapper extends Mapper {
         return $this->selectAllStmt;
     }
 
-    // function getCustomersInCity ($city) {
-
-    //     $con = $this->getConnectionManager();
-    //     $selectStmt = "SELECT * FROM CUSTOMER where city = ?";
-    //     $cities = $con->executeSelectStatement($selectStmt, array($city));
-    //     return $this->getCollection($cities);
-    // }
+   
 }
 
 

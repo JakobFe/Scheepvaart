@@ -7,6 +7,7 @@
 	// algemene pagina lay-out en het menu.
 	require("template/top.tpl.php");
 
+	// finds all the shipments that were placed
 	require_once("gb/mapper/ShipmentMapper.php");
 	$mapper = new gb\mapper\ShipmentMapper();//
     $allShipments = $mapper->findAll();
@@ -19,6 +20,8 @@
         <td>Weight</td>        
     </tr>
     <?php
+    // all the found shipments and its Shipment ID, volume and weight are placed
+    // in a list 
     foreach($allShipments as $shipment) {
  ?>
        <tr>
