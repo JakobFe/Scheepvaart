@@ -22,6 +22,11 @@ div.main {
    border-left: 1px solid #000;
 }
 
+div #error{
+   color: red;
+   text-transform: uppercase;
+}
+
 h2.contentTitle, h2.indexTitle {
    color: #fff;
    border: none;

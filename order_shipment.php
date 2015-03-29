@@ -59,17 +59,17 @@
     <table style="width: 100%">
         <tr>
             <td>Shipment id</td>
-            <td><input type="text" value=""></td>
+            <td><input type="text" value="" name="shipment_id"></td>
             <td>Volume</td>
-            <td><input type="text" value=""></td>
+            <td><input type="text" value="" name="volume" ></td>
             <td>Weight</td>
-            <td><input type ="text" value = ""></td>            
+            <td><input type ="text" value = "" name="weight"></td>
         </tr>
         <tr>
             <td>Price</td>
-            <td><input type ="text" value = ""></td>
+            <td><input type ="text" value = "" name="price"></td>
             <td>Date</td>
-            <td><input type="text" value=""></td>
+            <td><input type="text" value="" name="date"></td>
             <td></td>
             <td></td>
             <td></td>            
@@ -109,7 +109,10 @@
     <td >&nbsp;</td>
 </tr>
 </table>
-</form>    
+<div id="error">
+<?php if($orderController->isOrderShipmentDisabled() and !$orderController->isSsnNull()) echo "Please go to the 'create new customer' page to create a new customer" ?>
+</div>
+</form>
 <?php
 	require("template/bottom.tpl.php");
 ?>

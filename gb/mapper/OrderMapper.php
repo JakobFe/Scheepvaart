@@ -42,10 +42,10 @@ class OrderMapper extends Mapper {
     }
 
     protected function doInsert( \gb\domain\DomainObject $object ) {
-        /*$values = array( $object->getName() ); 
+        $values = array( $object->getName() );
         $this->insertStmt->execute( $values );
         $id = self::$PDO->lastInsertId();
-        $object->setId( $id );*/
+        $object->setId( $id );
     }
     
     function update( \gb\domain\DomainObject $object ) {

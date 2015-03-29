@@ -3,6 +3,8 @@ namespace gb\controller;
 
 require_once("gb/controller/PageController.php");
 require_once("gb/mapper/CustomerMapper.php" );
+require_once("gb/connection/ConnectionManager.php");
+
 
 class OrderShipmentController extends PageController {
     private $customer;
@@ -16,7 +18,6 @@ class OrderShipmentController extends PageController {
         if (isset($_POST["order_shipment"])){
             $this->placeShipmentOrder();
         }
-                
     }
     
     function isSsnNull() {
@@ -102,7 +103,10 @@ class OrderShipmentController extends PageController {
     }
     
     function placeShipmentOrder() {
-        print 'put insert code here';
+        $con = new \gb\connection\ConnectionManager();
+        $insertStmt = "INSERT INTO orders VALUES ($_POST[])";
+        $results = $con->executeUpdateStatement($insertStmt, array());
+        return $results;
     }
 }
 
