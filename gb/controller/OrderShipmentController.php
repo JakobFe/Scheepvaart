@@ -171,6 +171,7 @@ class OrderShipmentController extends PageController {
         $orderMapper->doInsert($newOrder);
         $shipmentMapper->doInsert($newShipment);
         $this->inserted = true;
+        echo "the order has been placed.";
     }
 }
 

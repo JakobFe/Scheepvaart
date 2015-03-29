@@ -19,6 +19,8 @@ class CreateCustomerController extends PageController {
 			$_POST['number'], $_POST['bus'], $_POST['postal_code'], $_POST['city'], $_POST['mobiphone']);
 			//Add the new user the the database
 			$con->executeUpdateStatement($updateStmt, $Values);  
+			echo "new customer created!";
+
         }
     }
 }

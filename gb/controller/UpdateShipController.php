@@ -32,6 +32,7 @@ class UpdateShipController extends PageController
 				$ships = new \gb\mapper\ShipMapper();
 				// update the ship information to the new id, name and type 
 				$ships->updateShip($previousID, $shipID, $shipName, $shipType);
+
 				echo "<br> The ship information has been updated";
 
 			}
