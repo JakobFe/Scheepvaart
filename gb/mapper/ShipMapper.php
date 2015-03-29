@@ -13,22 +13,21 @@ class ShipMapper extends Mapper {
         $this->selectStmt = "SELECT * FROM CUSTOMER where ssn = ?";
         $this->selectAllStmt = "SELECT * FROM SHIP ";
         $this->selectIDStmt = "SELECT ship_id FROM SHIP"; 
-        $this->updateIDStmt = "UPDATE SHIP SET ship_id = ? where ship_id = ? ";
-        $this->updateNameStmt = "UPDATE SHIP SET ship_name = ? where ship_id=?";
-        $this->updateTypeStmt = "UPDATE SHIP SET type = ? WHERE ship_id = ?";
+        $this->updateShipStmt = "UPDATE SHIP SET ship_id = ? , ship_name = ?, type = ? where ship_id = ? ";
         
     } 
     
     function getCollection( array $raw ) {
         
-        $customerCollection = array();
+        $shipCollection = array();
         foreach($raw as $row) {
-            array_push($customerCollection, $this->doCreateObject($row));
+            array_push($shipCollection, $this->doCreateObject($row));
         }
         
-        return $customerCollection;
+        return $shipCollection;
     }
 
+    // a function to get the ID's of each ship in a usable way
     function getCollectionID( array $raw){
         $IDCollection = array();
         foreach ($raw as $row ) {
@@ -38,6 +37,7 @@ class ShipMapper extends Mapper {
         return $IDCollection; 
     }
 
+    // a function to create a new Ship object
     protected function doCreateObject( array $array ) {
         $obj = new \gb\domain\Ship( $array['ship_id'] );
         
@@ -55,23 +55,12 @@ class ShipMapper extends Mapper {
     function update( \gb\domain\DomainObject $object ) {
         
     }
+    
+    // a function to update a ship to its new ID, name and type
     function updateShip($previousID, $newID, $newShipName, $newType){
-        $this->updateID($previousID,$newID);
-        $this->updateName($newShipName,$previousID);
-        $this->updateType($newType,$previousID);
+        self::$con->executeUpdateStatement($this->updateShipStmt(),array($newID,$newShipName,$newType, $previousID)); 
     }
 
-    function updateID($previousID, $newID){
-        self::$con->executeUpdateStatement($this->updateIDStmt(),array($newID, $previousID)); 
-    }
-
-    function updateName($newShipName, $previousID){
-        self::$con->executeUpdateStatement($this->updateNameStmt(),array($newShipName, $previousID)); 
-    }
-
-    function updateType($newType, $previousID){
-        self::$con->executeUpdateStatement($this->updateTypeStmt(),array($newType, $previousID)); 
-    }
 
     function selectStmt() {
         return $this->selectStmt;
@@ -81,21 +70,12 @@ class ShipMapper extends Mapper {
         return $this->selectAllStmt;
     }
 
-    function selectIDStmt(){
-        return $this->selectIDStmt; 
+
+    function updateShipStmt(){
+        return $this->updateShipStmt;
     }
 
-    function updateIDStmt(){
-        return $this->updateIDStmt;
-    }
-
-    function updateNameStmt(){
-        return $this->updateNameStmt;
-    }
-
-    function updateTypeStmt(){
-        return $this->updateTypeStmt;
-    }
+    
     
     
 }
