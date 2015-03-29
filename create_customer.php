@@ -9,7 +9,10 @@
 
     require_once( "gb/controller/CreateCustomerController.php" );
     $customerController = new gb\controller\CreateCustomerController();
-    $customerController->process();
+    try{$customerController->process();
+	}catch (Exception $ex){
+		print "The customer ssn is already in use";
+	}
 ?>    
 <form method="post">
 <table style="width: 100%">
