@@ -8,9 +8,14 @@
 	// algemene pagina lay-out en het menu.
 	require("template/top.tpl.php");
 
+    // php page that makes sure the right information is put on this page 
+    // once the client has chosen a specific city, this page returns a list 
+    // with the customers in that specific city. 
     require_once( "gb/controller/ListCustomerInCityController.php" );
     $filterController = new gb\controller\ListCustomerInCityController();
     $customers = $filterController->process();
+
+    // find all the cities where customers live
     require_once( "gb/mapper/CustomerMapper.php");
     $mapper = new gb\mapper\CustomerMapper();
     $allCities = $mapper->findAllCities();
@@ -25,6 +30,7 @@
         <td style="width: 40%">
             <select name="city" style="width: 100%">
                 <?php
+                    // each city is put in a dropdown list
                     foreach($allCities as $city) {
                 ?>
                 <option value="<?php echo $city?>"><?php echo $city?></option>
@@ -46,11 +52,10 @@
                 <td>City</td>
             </tr>
 
-<?php
-    require_once( "gb/mapper/CustomerMapper.php" );    
-    $custMapper = new gb\mapper\CustomerMapper();//
- ?>
+
  <?php
+    // for each customer living in the chosen city, his Ssn, first name, last name, address and city
+    // are displayed in a list 
     foreach($customers as $customer) {
  ?>
        <tr>

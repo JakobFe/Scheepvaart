@@ -7,6 +7,7 @@
 	// algemene pagina lay-out en het menu.
 	require("template/top.tpl.php");
 
+	// this finds all the orders placed. 
 	require_once("gb/mapper/OrderMapper.php");
 	$mapper = new gb\mapper\OrderMapper();//
     $allOrders = $mapper->findAll();
@@ -20,6 +21,8 @@
         <td>Order date</td>
     </tr>
     <?php
+    // all the found orders and its Shipment ID, Ship broker name, price,
+    // order date and the name of the person who ordered it are placed in a list. 
     foreach($allOrders as $order) {
  ?>
        <tr>

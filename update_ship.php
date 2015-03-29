@@ -7,9 +7,13 @@
 	// algemene pagina lay-out en het menu.
 	require("template/top.tpl.php");
 
+    // zorgt ervoor dat deze pagina de juiste acties ondergaat 
     require_once( "gb/controller/UpdateShipController.php" );
     $updateShipController = new gb\controller\UpdateShipController();
     $updateShipController->process();
+
+    // zolang de gebruiker het formulier niet heeft doorgestuurd,
+    // is het formulier nog zichtbaar, daarna wordt het niet meer zichtbaar. 
     $displayTable = "block";
     if (isset($_POST["update_ship"])){
         $displayTable = "none";
