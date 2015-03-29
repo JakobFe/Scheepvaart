@@ -15,7 +15,7 @@
     
     $mapper = new gb\mapper\ShipBrokerMapper();
     $allShipBroker = $mapper->findAll();    
-?>    
+?>
 <form method="post">
 <table style="width: 100%">
 <tr>
@@ -69,7 +69,7 @@
             <td>Price</td>
             <td><input type ="text" value = "" name="price"></td>
             <td>Date</td>
-            <td><input type="text" value="" name="date"></td>
+            <td><input type="date" value="" name="date"></td>
             <td></td>
             <td></td>
             <td></td>            
@@ -86,7 +86,7 @@
         <tr>
             <td style="width: 15%">Broker name</td>
             <td colspan="5" style="width: 85%">
-                <select style="width: 50%">
+                <select style="width: 50%" name="ship_broker_name">
                     <?php
                     foreach($allShipBroker as $broker) {
                         echo "<option value=\"", $broker->getName(), "\">", $broker->getName(), "</option>" ;
@@ -110,7 +110,30 @@
 </tr>
 </table>
 <div id="error">
-<?php if($orderController->isOrderShipmentDisabled() and !$orderController->isSsnNull()) echo "Please go to the 'create new customer' page to create a new customer" ?>
+<?php
+/**
+ * This if statement will show an error message if
+ *      the ssn is not null which is equivalent to the ssn is filled in by the user before clicking on the look up button
+ *  and
+ *      the order/shipment is disabled which is equivalent to the given ssn doesn't exist yet.
+ * The user will be asked to navigate to the create new customer page, because there is no customer with the given ssn.
+ */
+if(!$orderController->isSsnNull() and $orderController->isOrderShipmentDisabled())
+    echo "Please go to the 'create new customer' page to create a new customer";
+?>
+</div>
+<div id="error">
+<?php
+/**
+ * If the user pressed the submit button (first if) and the shipment id does already exist (second if) and the shipment id
+ * has not recently been inserted (third if), there will be an error message showed to suggest the user to choose another shipment id
+ * because the id is already in use.
+ */
+if($orderController->isOrderShipmentEnabled())
+    if ($orderController->shipmentExists($_POST["shipment_id"]))
+        if (!$orderController->inserted)
+            echo "The given shipment id already exists, please choose another one.";
+?>
 </div>
 </form>
 <?php

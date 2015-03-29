@@ -15,14 +15,11 @@ class Order extends DomainObject {
     private $ssn;
     private $nameBelongingToSsn;
 
-
     function __construct( $id=null ) {
         parent::__construct( $id );
     }
-    
-    
-    // below, basic getters and setters of the attributes defined above are implemented. 
 
+    // below, basic getters and setters of the attributes defined above are implemented.
     function setShipmentID($ShipmentID ) {
         $this->ShipmentID = $ShipmentID;
     }
@@ -39,11 +36,10 @@ class Order extends DomainObject {
         return $this->ssn;
     }
     
-    
-    
     function setShipBrokerName ($ship_broker_name) {
         $this->ship_broker_name = $ship_broker_name;
     }
+
     function getShipBrokerName() {
         return $this->ship_broker_name;
     }
@@ -56,11 +52,10 @@ class Order extends DomainObject {
         return $this->price;
     }
     
-    
-    
     function setOrderDate ($order_date) {
         $this->order_date = $order_date;
     }
+
     function getOrderDate() {
         return $this->order_date;
     }
@@ -72,9 +67,6 @@ class Order extends DomainObject {
     function getNameBelongingToSsn(){
         return $this->nameBelongingToSsn; 
     }
-    
-    
-
 }
 
 ?>
