@@ -12,6 +12,8 @@ class Order extends DomainObject {
     private $price;
     private $order_date;
 
+    private $nameBelongingToSsn;
+
 
     function __construct( $id=null ) {
         //$this->name = $name;
@@ -60,6 +62,14 @@ class Order extends DomainObject {
     }
     function getOrderDate() {
         return $this->order_date;
+    }
+
+    function setNameBelongingToSsn($nameBelongingToSsn){
+        $this->nameBelongingToSsn = $nameBelongingToSsn; 
+    }
+
+    function getNameBelongingToSsn(){
+        return $this->nameBelongingToSsn; 
     }
     
     

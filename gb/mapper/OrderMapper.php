@@ -12,7 +12,8 @@ class OrderMapper extends Mapper {
         parent::__construct();
         $this->selectStmt = "SELECT * FROM shipment where shipment_id = ?";
         //$this->selectStmt = "SELECT * FROM CUSTOMER where ssn = ?";
-        $this->selectAllStmt = "SELECT * FROM orders ";        
+        $this->selectAllStmt = "SELECT shipment_id, O.ssn, ship_broker_name,price,order_date,first_name,last_name FROM orders O, customer C WHERE O.ssn = C.ssn ";    
+        
     } 
     
     function getCollection( array $raw ) {
@@ -36,6 +37,7 @@ class OrderMapper extends Mapper {
             $obj->setShipBrokerName($array['ship_broker_name']);
             $obj->setPrice($array['price']);
             $obj->setOrderDate($array['order_date']);
+            $obj->setNameBelongingToSsn($array['first_name'].' '.$array['last_name']);
         } 
         
         return $obj;

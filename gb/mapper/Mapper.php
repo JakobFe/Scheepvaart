@@ -37,6 +37,11 @@ abstract class Mapper {
 
     }
 
+    function findAllShipID(){
+        $ships = self::$con->executeSelectStatement($this->selectIDstmt(),array());
+        return $this->getCollectionID($ships);
+    }
+
     function createObject( $array ) {
         $obj = $this->doCreateObject( $array );
         return $obj;

@@ -24,7 +24,7 @@
  ?>
        <tr>
 		<td><?php echo $order->getShipmentID(); ?></td>
-		<td><?php echo $order->getSsn(); ?></td>
+		<td><?php echo $order->getNameBelongingToSsn(); ?></td>
 		<td><?php echo $order->getShipBrokerName(); ?></td>
 		<td><?php echo $order->getPrice(); ?></td>
 		<td><?php echo $order->getOrderDate(); ?></td>
