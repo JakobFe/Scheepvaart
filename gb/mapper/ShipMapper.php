@@ -56,7 +56,7 @@ class ShipMapper extends Mapper {
         
     }
     function updateShip($previousID, $newID, $newShipName, $newType){
-       // $this->updateID($previousID,$newID);
+        $this->updateID($previousID,$newID);
         $this->updateName($newShipName,$previousID);
         $this->updateType($newType,$previousID);
     }
