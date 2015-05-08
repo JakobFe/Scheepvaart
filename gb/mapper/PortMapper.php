@@ -114,7 +114,7 @@ class PortMapper extends Mapper {
 		where from_port_code = (SELECT port_code FROM PORT 
 		where port_name = ? and country_id = ?))
         as routes
-		ON routes.'to_port_code' = port.'port_code' ";
+		ON routes.to_port_code = port.port_code ";
 		$results = $con->executeSelectStatement($selectStmt, array($Start_port, $start_port_country));        
 		return $results;
 	}
@@ -125,7 +125,7 @@ class PortMapper extends Mapper {
 		SELECT route_id, from_port_code from ROUTE
 		where to_port_code = (SELECT port_code FROM PORT 
 		where port_name = ? and country_id = ?))as routes 
-		ON ROUTES.to_port_code = PORT.port_code";
+		ON routes.from_port_code = port.port_code";
 		$results = $con->executeSelectStatement($selectStmt, array($End_port, $end_port_country));        
 		return $results;
 	}

@@ -15,6 +15,7 @@
     <?php
     foreach($allShipBrokers as $shipBroker) {
  ?>
+
        <tr>
 		<td><?php echo $shipBroker->getName(); ?></td>
 		<td><?php echo $shipBroker->getPopularity(); ?></td>

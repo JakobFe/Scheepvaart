@@ -11,8 +11,6 @@ class ListRouteFromPortController extends PageController {
             if (isset($_POST["port"])){
             	$port = $_POST["port"]; 
                 $country = $_POST["country"];
-                echo $port; 
-                echo $country; 
             	$mapper = new \gb\mapper\PortMapper();
             	$start_ports = $mapper->getRoute_From_Port($port,$country);
                 $end_ports= $mapper->getRoute_To_Port($port,$country);

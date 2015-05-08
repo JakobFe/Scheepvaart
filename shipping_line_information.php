@@ -9,7 +9,7 @@
 	require("template/top.tpl.php");
 
     // find all the routes that depart or end at the given port
-    require_once("gb/controller/listRouteFromPortController.php");
+    require_once("gb/controller/ListRouteFromPortController.php");
     $filerController = new gb\controller\listRouteFromPortController();
     list($start_routes, $end_routes) = $filerController->process();
 
@@ -29,10 +29,17 @@
             <select name="country" style="width: 100%">
                 <?php
                     // each city is put in a dropdown list
-                    foreach($allCountries as $city) {
+                    foreach($allCountries as $country) {
                 ?>
-                <option value="<?php echo $city?>"><?php echo $city?></option>
-                <?php        
+                <option <?php
+                        if(isset($_POST["country"])){
+                            if($_POST["country"] == $country){
+                                echo "selected";
+                            }
+                        }
+                        ?>
+                    value="<?php echo $country?>"><?php echo $country?></option>
+                <?php
                 }
                 ?>
             </select>
@@ -63,11 +70,11 @@
     </tr>
 </table>    
 	<table>
-    <tr> routes with this port as start port : </tr>
+    <tr> Routes starting at this port: </tr>
             <tr>
-                <td>from port</td>
-                <td>to port</td>
-                <td>route id </td>
+                <td>From port</td>
+                <td>To port</td>
+                <td>Route-id </td>
             </tr>
             <?php
     // for each customer living in the chosen city, his Ssn, first name, last name, address and city
@@ -76,20 +83,22 @@
  ?>
        <tr>
         <td><?php echo $_POST["port"] ?></td>
-        <td><?php echo $route["to_port_code"] ?></td>
-        <td><?php echo $route["route_id"]; ?></td>
-        
+        <td><?php echo $route["port_name"] ?></td>
+        <td><?php echo $route["route_id"] ?></td>
+        <td><a href="shipping_line_detail.php?route_id=<?php echo $route["route_id"] ?>">View</a></td>
+
     </tr>     
-<?php        
+<?php
+
 }
 ?>
 
 <table>
-    <tr> routes with this port as end port : </tr>
+    <tr> Routes ending at this port: </tr>
             <tr>
-                <td>from port</td>
-                <td>to port</td>
-                <td>route id </td>
+                <td>From port</td>
+                <td>To port</td>
+                <td>Route-id </td>
             </tr>
             <?php
     // for each customer living in the chosen city, his Ssn, first name, last name, address and city
@@ -99,9 +108,10 @@
        <tr>
        <td><?php echo $route["to_port_code"] ?></td>
         <td><?php echo $_POST["port"] ?></td>
-        <td><?php echo $route["route_id"]; ?></td>
-        
-    </tr>     
+        <td><?php echo $route["route_id"] ?></td>
+        <td><a href="shipping_line_detail.php?route_id=<?php echo $route["route_id"] ?>">View</a></td>
+
+       </tr>
 <?php        
 }
 ?>
