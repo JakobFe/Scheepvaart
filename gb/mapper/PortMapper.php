@@ -14,6 +14,7 @@ class PortMapper extends Mapper {
         $this->selectAllStmt = "SELECT * FROM SHIP ";
         $this->selectIDStmt = "SELECT ship_id FROM SHIP"; 
         $this->updateShipStmt = "UPDATE SHIP SET ship_id = ? , ship_name = ?, type = ? where ship_id = ? ";
+        $this->selectPortStmt = "SELECT port_name FROM SHIP GROUP BY port_name";      
         
     } 
     
