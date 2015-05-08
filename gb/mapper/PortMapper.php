@@ -22,12 +22,12 @@ class PortMapper extends Mapper {
     
     function getCollection( array $raw ) {
         
-        $shipCollection = array();
+        $portCollection = array();
         foreach($raw as $row) {
-            array_push($shipCollection, $this->doCreateObject($row));
+            array_push($portCollection, $this->doCreateObject($row));
         }
         
-        return $shipCollection;
+        return $portCollection;
     }
 
     // a function to create a new Ship object
