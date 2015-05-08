@@ -14,13 +14,14 @@ class ListRouteFromPortController extends PageController {
                 echo $port; 
                 echo $country; 
             	$mapper = new \gb\mapper\PortMapper();
-            	$ports = $mapper->getRoute_From_Port($port,$country);
-            	return $ports;
+            	$start_ports = $mapper->getRoute_From_Port($port,$country);
+                $end_ports= $mapper->getRoute_To_Port($port,$country);
+            	return array($start_ports, $end_ports);
             }
             
         }
         else {
-        	return array();
+        	return array(array(),array());
         }
 
 

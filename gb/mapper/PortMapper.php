@@ -118,8 +118,8 @@ class PortMapper extends Mapper {
 		function getRoute_to_Port($End_port, $end_port_country){
 		$con = $this->getConnectionManager();
 		$selectStmt = "SELECT route_id from ROUTE where to_port_code = 
-		(SELECT port_code FROM PORT where port_name = $End_port and country_id = $end_port_country)";
-		$results = $con->executeSelectStatement($selectStmt, array());        
+		(SELECT port_code FROM PORT where port_name = ? and country_id = ?)";
+		$results = $con->executeSelectStatement($selectStmt, array($End_port, $end_port_country));        
 		return $results;
 	}
 }

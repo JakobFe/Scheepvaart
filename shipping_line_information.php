@@ -11,7 +11,7 @@
     // find all the routes that depart or end at the given port
     require_once("gb/controller/listRouteFromPortController.php");
     $filerController = new gb\controller\listRouteFromPortController();
-    $routes = $filerController->process();
+    list($start_routes, $end_routes) = $filerController->process();
 
     // find all the cities where customers live
     require_once( "gb/mapper/PortMapper.php");
@@ -63,6 +63,7 @@
     </tr>
 </table>    
 	<table>
+    <tr> routes with this port as start port : </tr>
             <tr>
                 <td>from port</td>
                 <td>to port</td>
@@ -71,17 +72,40 @@
             <?php
     // for each customer living in the chosen city, his Ssn, first name, last name, address and city
     // are displayed in a list 
-    foreach($routes as $route) {
+    foreach($start_routes as $route) {
  ?>
        <tr>
         <td><?php echo $_POST["port"] ?></td>
-        <td><?php echo "coming" ?></td>
+        <td><?php echo $route["to_port_code"] ?></td>
         <td><?php echo $route["route_id"]; ?></td>
         
     </tr>     
 <?php        
 }
 ?>
+
+<table>
+    <tr> routes with this port as end port : </tr>
+            <tr>
+                <td>from port</td>
+                <td>to port</td>
+                <td>route id </td>
+            </tr>
+            <?php
+    // for each customer living in the chosen city, his Ssn, first name, last name, address and city
+    // are displayed in a list 
+    foreach($end_routes as $route) {
+ ?>
+       <tr>
+       <td><?php echo $route["to_port_code"] ?></td>
+        <td><?php echo $_POST["port"] ?></td>
+        <td><?php echo $route["route_id"]; ?></td>
+        
+    </tr>     
+<?php        
+}
+?>
+
 
       
 </table>
