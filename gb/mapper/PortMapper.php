@@ -10,12 +10,8 @@ class PortMapper extends Mapper {
 
     function __construct() {
         parent::__construct();
-        $this->selectStmt = "SELECT * FROM CUSTOMER where ssn = ?";
-        $this->selectAllStmt = "SELECT * FROM SHIP ";
-        $this->selectIDStmt = "SELECT ship_id FROM SHIP"; 
-        $this->updateShipStmt = "UPDATE SHIP SET ship_id = ? , ship_name = ?, type = ? where ship_id = ? ";
-        
-    } 
+        $this->selectAllStmt = "SELECT * FROM PORT";
+    }
     
     function getCollection( array $raw ) {
         
@@ -27,58 +23,25 @@ class PortMapper extends Mapper {
         return $shipCollection;
     }
 
-    // a function to get the ID's of each ship in a usable way
-    function getCollectionID( array $raw){
-        $IDCollection = array();
-        foreach ($raw as $row ) {
-            array_push($IDCollection, $row['ship_id']);
-        }
-
-        return $IDCollection; 
-    }
-
     // a function to create a new Ship object
     protected function doCreateObject( array $array ) {
-        $obj = new \gb\domain\Ship( $array['ship_id'] );
+        $obj = new \gb\domain\Port( $array['port_code'] );
         
-        $obj->setShipId($array['ship_id']);
-        $obj->setShipName($array['ship_name']);
-        $obj->setType($array['type']);
-        
+        $obj->setPortCode($array['port_code']);
+        $obj->setPortName($array['port_name']);
+        $obj->setTax($array['tax']);
+        $obj->setLongitude($array['longitude']);
+        $obj->setLatitude($array['latilude']);
+        $obj->setTimeZone($array['time_zone']);
+        $obj->setDstZone($array['dst_zone']);
+        $obj->setCountryId($array['country_id']);
+
+
         return $obj;
     }
 
-    protected function doInsert( \gb\domain\DomainObject $object ) {
-        
-    }
-    
-    function update( \gb\domain\DomainObject $object ) {
-        
-    }
-    
-    // a function to update a ship to its new ID, name and type
-    function updateShip($previousID, $newID, $newShipName, $newType){
-        self::$con->executeUpdateStatement($this->updateShipStmt(),array($newID,$newShipName,$newType, $previousID)); 
-    }
-
-
-    function selectStmt() {
-        return $this->selectStmt;
-    }
-    
     function selectAllStmt() {
         return $this->selectAllStmt;
     }
-
-
-    function updateShipStmt(){
-        return $this->updateShipStmt;
-    }
-
-    
-    
-    
 }
-
-
 ?>
