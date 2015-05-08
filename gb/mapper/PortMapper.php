@@ -108,17 +108,24 @@ class PortMapper extends Mapper {
     }
 	
 	function getRoute_From_Port($Start_port, $start_port_country){
-		$con = $this->getConnectionManager();
-		$selectStmt = "SELECT route_id, to_port_code from ROUTE where from_port_code = 
-		(SELECT port_code FROM PORT where port_name = ? and country_id = ?)";
+		$con = $this->getConnectionManager();      
+		$selectStmt = "SELECT route_id, port_name FROM PORT INNER JOIN (
+		SELECT route_id, to_port_code from ROUTE
+		where from_port_code = (SELECT port_code FROM PORT 
+		where port_name = ? and country_id = ?))
+        as routes
+		ON routes.'to_port_code' = port.'port_code' ";
 		$results = $con->executeSelectStatement($selectStmt, array($Start_port, $start_port_country));        
 		return $results;
 	}
 	
 		function getRoute_to_Port($End_port, $end_port_country){
 		$con = $this->getConnectionManager();
-		$selectStmt = "SELECT route_id from ROUTE where to_port_code = 
-		(SELECT port_code FROM PORT where port_name = ? and country_id = ?)";
+		$selectStmt = "SELECT route_id, port_name FROM PORT INNER JOIN (
+		SELECT route_id, from_port_code from ROUTE
+		where to_port_code = (SELECT port_code FROM PORT 
+		where port_name = ? and country_id = ?))as routes 
+		ON ROUTES.to_port_code = PORT.port_code";
 		$results = $con->executeSelectStatement($selectStmt, array($End_port, $end_port_country));        
 		return $results;
 	}
