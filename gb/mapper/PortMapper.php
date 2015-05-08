@@ -10,6 +10,12 @@ class PortMapper extends Mapper {
 
     function __construct() {
         parent::__construct();
+
+        $this->selectStmt = "SELECT * FROM CUSTOMER where ssn = ?";
+        $this->selectAllStmt = "SELECT * FROM SHIP ";
+        $this->selectIDStmt = "SELECT ship_id FROM SHIP"; 
+        $this->updateShipStmt = "UPDATE SHIP SET ship_id = ? , ship_name = ?, type = ? where ship_id = ? ";
+        $this->selectPortStmt = "SELECT port_name FROM SHIP GROUP BY port_name";      
         $this->selectAllStmt = "SELECT * FROM PORT";
     }
     
