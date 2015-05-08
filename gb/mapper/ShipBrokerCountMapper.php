@@ -31,7 +31,7 @@ class ShipBrokerCountMapper extends Mapper {
     }
 
     protected function doCreateObject( array $array ) {
-        $obj = new ShipBrokerCount( $array['ship_broker_name'] );
+        $obj = new \gb\domain\ShipBrokerCount( $array['ship_broker_name'] );
         
         $obj->setName($array['ship_broker_name']);
         $obj->setPopularity($array['COUNT(ship_broker_name)']);
@@ -47,7 +47,7 @@ class ShipBrokerCountMapper extends Mapper {
 	
 	$con = $this->getConnectionManager();
 	$results = $con->executeSelectStatement($this->selectStmt(), array($route_id));
-	return $results;
+	return $this->getCollection($results);
 	}
 
     function update(\gb\domain\DomainObject $object)
