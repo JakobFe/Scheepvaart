@@ -8,11 +8,15 @@
 	// algemene pagina lay-out en het menu.
 	require("template/top.tpl.php");
 
+    // find all the routes that depart or end at the given port
+    require_once("gb/controller/listRouteFromPortController.php");
+    $filerController = new gb\controller\listRouteFromPortController();
+    $routes = $filerController->process();
 
     // find all the cities where customers live
-    require_once( "gb/mapper/CustomerMapper.php");
-    $mapper = new gb\mapper\CustomerMapper();
-    $allCities = $mapper->findAllCities();
+    require_once( "gb/mapper/PortMapper.php");
+    $mapper = new gb\mapper\PortMapper();
+    $allCountries = $mapper->findAllCountries();
 ?>
 <form method="post">
 
@@ -20,12 +24,12 @@
     <tr>
         <td style="width: 10%"></td>
         
-        <td style="width: 10%">City</td>
+        <td style="width: 10%">Country</td>
         <td style="width: 40%">
-            <select name="city" style="width: 100%">
+            <select name="country" style="width: 100%">
                 <?php
                     // each city is put in a dropdown list
-                    foreach($allCities as $city) {
+                    foreach($allCountries as $city) {
                 ?>
                 <option value="<?php echo $city?>"><?php echo $city?></option>
                 <?php        
@@ -33,19 +37,51 @@
                 ?>
             </select>
         </td>
-        <td style="width: 10%"><input type="submit" value="get all cities" name="list_customer"></td>
+        <td style="width: 10%"><input type="submit" value="get all ports" name="list_customer"></td>
+        <td style="width: 30%"></td>
+    </tr>
+     <tr>
+        <td style="width: 10%"></td>
+        
+        <td style="width: 10%">City</td>
+        <td style="width: 40%">
+            <select name="port" style="width: 100%">
+                <?php
+                     if (isset($_POST["list_customer"])){
+                        $country = $_POST["country"];
+                        $allPorts = $mapper->findallPortsInCountry($country); }
+                        foreach($allPorts as $city) {
+                        ?>
+                            <option value="<?php echo $city?>"><?php echo $city?></option>
+                        <?php        
+                        }
+                        ?>
+            </select>
+        </td>
+        <td style="width: 10%"><input type="submit" value="select this port" name="port_selector"></td>
         <td style="width: 30%"></td>
     </tr>
 </table>    
 	<table>
             <tr>
-                <td>Ssn</td>
-                <td>First name</td>
-                <td>Last name</td>
-                <td>Address</td>
-                <td>City</td>
+                <td>from port</td>
+                <td>to port</td>
+                <td>route id </td>
             </tr>
-
+            <?php
+    // for each customer living in the chosen city, his Ssn, first name, last name, address and city
+    // are displayed in a list 
+    foreach($routes as $route) {
+ ?>
+       <tr>
+        <td><?php echo $_POST["port"] ?></td>
+        <td><?php echo "coming" ?></td>
+        <td><?php echo $route["route_id"]; ?></td>
+        
+    </tr>     
+<?php        
+}
+?>
 
       
 </table>

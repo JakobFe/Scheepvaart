@@ -15,8 +15,9 @@ class PortMapper extends Mapper {
         $this->selectAllStmt = "SELECT * FROM SHIP ";
         $this->selectIDStmt = "SELECT ship_id FROM SHIP"; 
         $this->updateShipStmt = "UPDATE SHIP SET ship_id = ? , ship_name = ?, type = ? where ship_id = ? ";
-        $this->selectPortStmt = "SELECT port_name FROM SHIP GROUP BY port_name";      
+        $this->selectPortStmt = "SELECT port_name FROM Port  WHERE country_id = ?";      
         $this->selectAllStmt = "SELECT * FROM PORT";
+        $this->selectCountryStmt = "SELECT country_id FROM Port GROUP BY country_id";
     }
     
     function getCollection( array $raw ) {
@@ -46,6 +47,10 @@ class PortMapper extends Mapper {
         return $obj;
     }
 
+    function selectStmt() {
+        return $this->selectStmt;
+    }
+
     function selectAllStmt() {
         return $this->selectAllStmt;
     }
@@ -53,12 +58,60 @@ class PortMapper extends Mapper {
     function updateShipStmt(){
         return $this->updateShipStmt;
     }
+
+    function selectPortStmt() {
+        return $this->selectPortStmt; 
+    }
+
+    function selectCountryStmt(){
+        return $this->selectCountryStmt;
+    }
+
+
+    protected function doInsert( \gb\domain\DomainObject $object ) {
+        // laten staan want dit is een abstracte functie in mapper
+    }
+    
+    function update( \gb\domain\DomainObject $object ) {
+        /// laten staan want dit is een abstracte functie in mapper
+    }
+    
+    function findAllPortsInCountry($country){
+        $ports = self::$con->executeSelectStatement($this->selectPortStmt(),array($country));
+        //return serialize($customers); 
+        return $this->getCollectionPort($ports); 
+
+    }
+
+    function findAllCountries(){
+        $ports = self::$con->executeSelectStatement($this->selectCountryStmt(),array());
+        return $this->getCollectionCountry($ports); 
+    }
+
+
+
+    function getCollectionCountry( array $raw) {
+        $customerCollection = array();
+        foreach($raw as $row) {
+            array_push($customerCollection,  $row['country_id']);
+        }
+        
+        return $customerCollection;
+    }
+    function getCollectionPort( array $raw) {
+        $customerCollection = array();
+        foreach($raw as $row) {
+            array_push($customerCollection,  $row['port_name']);
+        }
+        
+        return $customerCollection;
+    }
 	
 	function getRoute_From_Port($Start_port, $start_port_country){
 		$con = $this->getConnectionManager();
-		$selectStmt = "SELECT route_id from ROUTE where from_port_code = 
-		(SELECT port_code FROM PORT where port_name = $Start_port and country_id = $start_port_country)";
-		$results = $con->executeSelectStatement($selectStmt, array());        
+		$selectStmt = "SELECT route_id, to_port_code from ROUTE where from_port_code = 
+		(SELECT port_code FROM PORT where port_name = ? and country_id = ?)";
+		$results = $con->executeSelectStatement($selectStmt, array($Start_port, $start_port_country));        
 		return $results;
 	}
 	
