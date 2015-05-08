@@ -74,6 +74,22 @@ class PortMapper extends Mapper {
     function updateShipStmt(){
         return $this->updateShipStmt;
     }
+	
+	function getRoute_From_Port($Start_port, $start_port_country){
+		$con = $this->getConnectionManager();
+		$selectStmt = "SELECT route_id from ROUTE where from_port_code = 
+		(SELECT port_code FROM PORT where port_name = $Start_port and country_id = $start_port_country)";
+		$results = $con->executeSelectStatement($selectStmt, array());        
+		return $results;
+	}
+	
+		function getRoute_to_Port($End_port, $end_port_country){
+		$con = $this->getConnectionManager();
+		$selectStmt = "SELECT route_id from ROUTE where to_port_code = 
+		(SELECT port_code FROM PORT where port_name = $End_port and country_id = $end_port_country)";
+		$results = $con->executeSelectStatement($selectStmt, array());        
+		return $results;
+	}
 
     
     

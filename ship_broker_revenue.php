@@ -34,10 +34,10 @@
  ?>
        <tr>
 		<td><?php echo $routes[$i]['Ship_broker_name']; ?></td>
-		<td><?php echo $Ports[0]['from_port_code'] ?></td>
-		<td><?php echo $Ports[0]['to_port_code'] ?></td>
-		<td><?php echo $routes[$i]['SUM(price)'] ?></td>
-		<td><?php echo $routes[$i]['departure_date'] ?></td>
+		<td><?php echo $Ports[0]['from_port_code']; ?></td>
+		<td><?php echo $Ports[0]['to_port_code']; ?></td>
+		<td><?php echo $routes[$i]['SUM(price)']; ?></td>
+		<td><?php echo $routes[$i]['departure_date']; ?></td>
 		</tr>  
 	
 <?php        
