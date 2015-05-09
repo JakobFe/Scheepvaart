@@ -37,12 +37,7 @@ abstract class Mapper {
 
     }
 
-    function findAllPorts(){
-        $ports = self::$con->executeSelectStatement($this->selectPortStmt(),array());
-        //return serialize($customers); 
-        return $this->getCollectionPort($ports); 
-
-    }
+    
 
     function findAllShipID(){
         $ships = self::$con->executeSelectStatement($this->selectIDstmt(),array());

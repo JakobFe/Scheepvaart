@@ -12,11 +12,15 @@ class PortMapper extends Mapper {
         parent::__construct();
 
         $this->selectStmt = "SELECT * FROM CUSTOMER where ssn = ?";
-        $this->selectAllStmt = "SELECT * FROM SHIP ";
+        // select al the ship id's from a ship
         $this->selectIDStmt = "SELECT ship_id FROM SHIP"; 
+        // update a ship 
         $this->updateShipStmt = "UPDATE SHIP SET ship_id = ? , ship_name = ?, type = ? where ship_id = ? ";
+        // select all the ports in a given country
         $this->selectPortStmt = "SELECT port_name FROM Port  WHERE country_id = ?";      
+        // select all the information about all ports
         $this->selectAllStmt = "SELECT * FROM PORT";
+        // select all country id's from all ports 
         $this->selectCountryStmt = "SELECT country_id FROM Port GROUP BY country_id";
     }
     
@@ -76,20 +80,23 @@ class PortMapper extends Mapper {
         /// laten staan want dit is een abstracte functie in mapper
     }
     
+    // a function to find all the ports in the given country 
+    // a collection containing all the ports in a given country is returned 
     function findAllPortsInCountry($country){
-        $ports = self::$con->executeSelectStatement($this->selectPortStmt(),array($country));
-        //return serialize($customers); 
+        $ports = self::$con->executeSelectStatement($this->selectPortStmt(),array($country)); 
         return $this->getCollectionPort($ports); 
 
     }
 
+    // a function to find all countries
+    // a collection containing all the countries is returned
     function findAllCountries(){
         $ports = self::$con->executeSelectStatement($this->selectCountryStmt(),array());
         return $this->getCollectionCountry($ports); 
     }
 
 
-
+    // a function to create a collection containing all the country id's from the given array
     function getCollectionCountry( array $raw) {
         $customerCollection = array();
         foreach($raw as $row) {
@@ -98,6 +105,7 @@ class PortMapper extends Mapper {
         
         return $customerCollection;
     }
+    // a function to create a collection containing all the port names from the given array
     function getCollectionPort( array $raw) {
         $customerCollection = array();
         foreach($raw as $row) {
@@ -107,8 +115,11 @@ class PortMapper extends Mapper {
         return $customerCollection;
     }
 	
+    // a function to get all the routes starting in the given port
 	function getRoute_From_Port($Start_port, $start_port_country){
 		$con = $this->getConnectionManager();      
+        // the query to select the route id and name of the end port
+        // for all routes starting in the given port
 		$selectStmt = "SELECT route_id, port_name FROM PORT INNER JOIN (
 		SELECT route_id, to_port_code from ROUTE
 		where from_port_code = (SELECT port_code FROM PORT 
@@ -118,13 +129,16 @@ class PortMapper extends Mapper {
 		$results = $con->executeSelectStatement($selectStmt, array($Start_port, $start_port_country));        
 		return $results;
 	}
-	
+	   // a function to get all the routes ending at the given port 
 		function getRoute_to_Port($End_port, $end_port_country){
 		$con = $this->getConnectionManager();
+        // the query to select the route id and name of the start port 
+        // for all routes ending in the given port
 		$selectStmt = "SELECT route_id, port_name FROM PORT INNER JOIN (
 		SELECT route_id, from_port_code from ROUTE
 		where to_port_code = (SELECT port_code FROM PORT 
-		where port_name = ? and country_id = ?))as routes 
+		where port_name = ? and country_id = ?))
+        as routes 
 		ON routes.from_port_code = port.port_code";
 		$results = $con->executeSelectStatement($selectStmt, array($End_port, $end_port_country));        
 		return $results;

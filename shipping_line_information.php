@@ -38,12 +38,14 @@
                             }
                         }
                         ?>
+
                     value="<?php echo $country?>"><?php echo $country?></option>
                 <?php
                 }
                 ?>
             </select>
         </td>
+        <!-- a button to choose the selected country and get all the ports in that country -->
         <td style="width: 10%"><input type="submit" value="get all ports" name="list_customer"></td>
         <td style="width: 30%"></td>
     </tr>
@@ -54,17 +56,23 @@
         <td style="width: 40%">
             <select name="port" style="width: 100%">
                 <?php
+                // if a country has been choses by the customer, all the
+                // ports in that country get added to another dropdown list 
                      if (isset($_POST["list_customer"])){
+                        // get the selected country
                         $country = $_POST["country"];
+                        // get all the ports in the selected country 
                         $allPorts = $mapper->findallPortsInCountry($country); }
                         foreach($allPorts as $city) {
                         ?>
+                        <!-- put the port in the dropdown list  -->
                             <option value="<?php echo $city?>"><?php echo $city?></option>
                         <?php        
                         }
                         ?>
             </select>
         </td>
+        <!-- button to select a por t -->
         <td style="width: 10%"><input type="submit" value="select this port" name="port_selector"></td>
         <td style="width: 30%"></td>
     </tr>
@@ -77,15 +85,16 @@
                 <td>Route-id </td>
             </tr>
             <?php
-    // for each customer living in the chosen city, his Ssn, first name, last name, address and city
-    // are displayed in a list 
+    // for each route that has this port as start port , the start and end port and 
+    // the route id are displayed in a list 
     foreach($start_routes as $route) {
  ?>
        <tr>
+        
+        <td><a href="shipping_line_detail.php?route_id=<?php echo $route["route_id"] ?>">View</a></td>
         <td><?php echo $_POST["port"] ?></td>
         <td><?php echo $route["port_name"] ?></td>
         <td><?php echo $route["route_id"] ?></td>
-        <td><a href="shipping_line_detail.php?route_id=<?php echo $route["route_id"] ?>">View</a></td>
 
     </tr>     
 <?php
@@ -101,12 +110,12 @@
                 <td>Route-id </td>
             </tr>
             <?php
-    // for each customer living in the chosen city, his Ssn, first name, last name, address and city
-    // are displayed in a list 
+      // for each route that has this port as end port , the start and end port and 
+    // the route id are displayed in a list 
     foreach($end_routes as $route) {
  ?>
        <tr>
-       <td><?php echo $route["to_port_code"] ?></td>
+       <td><?php echo $route["port_name"] ?></td>
         <td><?php echo $_POST["port"] ?></td>
         <td><?php echo $route["route_id"] ?></td>
         <td><a href="shipping_line_detail.php?route_id=<?php echo $route["route_id"] ?>">View</a></td>
