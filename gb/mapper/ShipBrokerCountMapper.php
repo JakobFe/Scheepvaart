@@ -10,6 +10,10 @@ class ShipBrokerCountMapper extends Mapper {
 
     function __construct() {
         parent::__construct();
+        /**
+         * The query to select the number of times a shipbroker has shipped
+         * on the route with the given route_id grouped by the shipbroker's name.
+         */
         $this->selectStmt =
             "SELECT ship_broker_name, COUNT(ship_broker_name)
                 FROM(SELECT ship_broker_name
@@ -19,7 +23,14 @@ class ShipBrokerCountMapper extends Mapper {
                    as counting
                     group by ship_broker_name";
     }
-    
+
+    /**
+     * A method to create a collection of objects from the result of a query.
+     * @param array $raw
+     *          The result of a query to process.
+     * @return array
+     *          Returns an array of objects of type ShipBrokerCount.
+     */
     function getCollection( array $raw ) {
         
         $shipBrokerCountCollection = array();
@@ -30,6 +41,13 @@ class ShipBrokerCountMapper extends Mapper {
         return $shipBrokerCountCollection;
     }
 
+    /**
+     * A method to create an object out of an array row of the result of a query.
+     * @param array $array
+     *          The array row of the result of a query.
+     * @return \gb\domain\ShipBrokerCount
+     *          Returns an object of type ShipBrokerCount.
+     */
     protected function doCreateObject( array $array ) {
         $obj = new \gb\domain\ShipBrokerCount( $array['ship_broker_name'] );
         
@@ -39,10 +57,23 @@ class ShipBrokerCountMapper extends Mapper {
         return $obj;
     }
 
+    /**
+     * A method to get the query initialised in the constructor.
+     * @return string
+     *          Returns the query to select the required info.
+     */
     function selectStmt() {
         return $this->selectStmt;
     }
-    
+
+    /**
+     * The main method to get the info out of the database. The connection is made,
+     * the query is executed and the collection of objects is made.
+     * @param $route_id
+     *          The given route-id.
+     * @return array
+     *          Returns an array of objects of type ShipBrokerCount.
+     */
 	function getPopularity($route_id){
 	
 	$con = $this->getConnectionManager();
@@ -50,11 +81,17 @@ class ShipBrokerCountMapper extends Mapper {
 	return $this->getCollection($results);
 	}
 
+    /**
+     * A method to update the database. NOT USED!!!
+     */
     function update(\gb\domain\DomainObject $object)
     {
         // TODO: Implement update() method.
     }
 
+    /**
+     * A method to insert in the database. NOT USED!!!
+     */
     protected function doInsert(\gb\domain\DomainObject $object)
     {
         // TODO: Implement doInsert() method.

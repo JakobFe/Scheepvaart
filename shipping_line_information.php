@@ -28,10 +28,12 @@
         <td style="width: 40%">
             <select name="country" style="width: 100%">
                 <?php
-                    // each city is put in a dropdown list
+                    // Each country selected from all countries is put in the dropdown list.
                     foreach($allCountries as $country) {
                 ?>
                 <option <?php
+                // This part makes sure the selected country is still selected when the button is
+                // pressed and the page is reloaded.
                         if(isset($_POST["country"])){
                             if($_POST["country"] == $country){
                                 echo "selected";
@@ -56,8 +58,8 @@
         <td style="width: 40%">
             <select name="port" style="width: 100%">
                 <?php
-                // if a country has been choses by the customer, all the
-                // ports in that country get added to another dropdown list 
+                // If a country has been chosen by the customer, all the
+                // ports in that country are added to another dropdown list
                      if (isset($_POST["list_customer"])){
                         // get the selected country
                         $country = $_POST["country"];
